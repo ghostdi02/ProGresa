@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+
+        <h:form id="hola"> 
+            <p:growl id="mess"/>
+            <f:event type="preRenderView" listener="#{clienteBean.listart()}"/>
+            <p:outputLabel value="Ingrese el Nombre"/>
+            <p:inputText value="#{clienteBean.per.nombre}" />
+            <br/>
+            <p:outputLabel value="Ingrese el Apellido"/>
+            <p:inputText value="#{clienteBean.per.apellido}" />
+            <br/>
+            <p:outputLabel value="Ingrese la Direccion"/>
+            <p:inputText value="#{clienteBean.per.direccion}"/>
+            <br/>
+            <p:outputLabel value="Ingrese el Telefono"/>
+            <p:inputText value="#{clienteBean.per.telefono}" />
+            <br/>
+            <p:outputLabel value="Ingrese el Dpi"/>
+            <p:inputText value="#{clienteBean.per.dpi}"/>
+            <br/>
+            <p:commandButton actionListener="#{clienteBean.ingresar()}" value="Guardar" update="hola"/>
+
+
+
+            <p:dataTable var="clien" value="#{clienteBean.listt}" id="tb" >
+                <p:column headerText="Id Cliente">
+                    <h:outputText value="#{clien.idCliente}" />
+                </p:column>
+
+                <p:column headerText="Nombre" filterBy="#{clien.nombre}" filterMatchMode="contains">
+                    <h:outputText value="#{clien.nombre}" />
+                </p:column>
+
+                <p:column headerText="Apellido">
+                    <h:outputText value="#{clien.apellido}" />
+                </p:column>
+
+                <p:column headerText="Direccion">
+                    <h:outputText value="#{clien.direccion}" />
+                </p:column>
+
+                <p:column headerText="Telefono">
+                    <h:outputText value="#{clien.telefono}" />
+                </p:column>
+
+                <p:column headerText="DPI">
+                    <h:outputText value="#{clien.dpi}" />
+                </p:column>
+                <p:column headerText="Modificar">
+                    <p:commandLink actionListener="#{clienteBean.buscar(clien)}" value="Modificar" update=":hola2" oncomplete="PF('dlg').show();" immediate="true" />
+                </p:column>
+                <p:column headerText="Eliminar">
+                    <p:commandLink actionListener="#{clienteBean.eliminar(clien)}" value="Eliminar" update=":hola" />
+                </p:column>
+            </p:dataTable>
+
+
+
+
+
+        </h:form>
+        <h:form id="hola2">
+            <p:dialog header="Modificar" widgetVar="dlg"  height="100" >
+                <p:outputLabel value="Nombre"/>
+                <p:inputText value="#{clienteBean.per.nombre}" />
+
+                <p:outputLabel value="Apellido"/>
+                <p:inputText value="#{clienteBean.per.apellido}"/>
+
+                <p:outputLabel value="Direccion"/>
+                <p:inputText value="#{clienteBean.per.direccion}" />
+                <br/>
+                <p:outputLabel value="Telefono"/>
+                <p:inputText value="#{clienteBean.per.telefono}" />
+
+                <p:outputLabel value="Dpi"/>
+                <p:inputText value="#{clienteBean.per.dpi}" />
+
+                <p:commandButton actionListener="#{clienteBean.modificar()}" value="Modificar" update=":hola" oncomplete="PF('dlg').hide();" />
+
+            </p:dialog>
+        </h:form>
+        
+        
+    </h:body>
+</html>
+

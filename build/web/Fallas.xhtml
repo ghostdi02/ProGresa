@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:event type="preRenderView" listener="#{fallasBean.listarcli()}"/>
+        <f:event type="preRenderView" listener="#{fallasBean.listacredi()}"/>
+        <f:event type="preRenderView" listener="#{fallasBean.listafalla()}"/>
+        
+        <h:form id="hola">
+             <p:growl id="mess"/>
+            <p:outputLabel value="Seleccione el Cliente"/>
+            <p:selectOneMenu id="cliente"  value="#{fallasBean.cliente.idCliente}">
+                <f:selectItem itemLabel="Cliente"></f:selectItem>
+                <f:selectItems value="#{fallasBean.listcliente}" var="lista" itemLabel="#{lista.nombre}" itemValue="#{lista.idCliente}" />
+                <f:ajax execute="cliente" render="credito"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Seleccione el Credito"/>
+            <p:selectOneMenu id="credito"  value="#{fallasBean.credito.idCredito}">
+                 <f:selectItem itemLabel="Credito"></f:selectItem>
+                <f:selectItems value="#{fallasBean.listacreditos}" var="listcre"  itemLabel="#{listcre.idCredito}" itemValue="#{listcre.idCredito}" />
+                <f:ajax execute="credito" render="tb"/>
+            </p:selectOneMenu>
+
+            <p:commandButton value="Aceptar" actionListener="#{fallasBean.ingresarfalla()}" update="tb"/>
+
+
+            <p:dataTable var="fal" value="#{fallasBean.listfalla}"  paginator="true" rows="10" id="tb" >
+                <p:column headerText="Id Falla">
+                    <h:outputText value="#{fal.idFalla}" />
+                </p:column>
+                <p:column headerText="Id Credito">
+                    <h:outputText value="#{fal.idCredito.idCredito}" />
+                </p:column>
+                <p:column headerText="Fecha Falla">
+                    <h:outputText value="#{fal.fechaFalla}" >
+                        <f:convertDateTime type="date" pattern="dd/MM/yyyy"/> 
+                    </h:outputText>
+                </p:column>
+             
+                <p:column headerText="Eliminar">
+                    <p:commandLink actionListener="#{fallasBean.eliminar(fal)}" value="Eliminar" update=":hola" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
